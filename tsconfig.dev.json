@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "allowJs": true
+  },
+  "include": [
+    "*.config.*",
+    "**/.eslintrc.*js"
+  ]
+}
