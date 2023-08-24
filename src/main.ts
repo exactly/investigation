@@ -7,8 +7,10 @@ import groupBy from './utils';
 async function losses() {
   const withdrawals = await withdraws();
   const repays = await getRepays();
-  const withdrawReceivers = withdrawals.filter(({ receiver }) => Object.keys(MALICIOUS_RECEIVERS).includes(receiver));
-  const repayCallers = repays.filter(({ caller }) => Object.keys(MALICIOUS_RECEIVERS).includes(caller));
+  const maliciousWithdrawals = withdrawals.filter(({ receiver }) =>
+    Object.keys(MALICIOUS_RECEIVERS).includes(receiver),
+  );
+  const maliciousRepays = repays.filter(({ caller }) => Object.keys(MALICIOUS_RECEIVERS).includes(caller));
   const victims = [
     ...new Set(withdrawals.filter(({ receiver, owner }) => receiver !== owner).map(({ owner }) => owner)),
   ];
@@ -16,11 +18,11 @@ async function losses() {
     victims
       .map((victim) => {
         const marketWithdrawals = groupBy(
-          withdrawReceivers.filter(({ owner }) => owner === victim),
+          maliciousWithdrawals.filter(({ owner }) => owner === victim),
           ({ market }) => market,
         );
         const marketRepays = groupBy(
-          repayCallers.filter(({ borrower }) => borrower === victim),
+          maliciousRepays.filter(({ borrower }) => borrower === victim),
           ({ market }) => market,
         );
         const marketTotalWithdraw = Object.entries(marketWithdrawals).map(([market, mWithdrawals]) => ({
