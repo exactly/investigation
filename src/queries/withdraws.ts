@@ -1,6 +1,6 @@
-import { INIT_BLOCK, LAST_TIMESTAMP, SUBGRAPH } from '../constants';
+import { FIRST_TIMESTAMP, LAST_TIMESTAMP, SUBGRAPH } from '../constants';
 
-type Withdraw = {
+export type Withdraw = {
   id: string;
   market: `0x${string}`;
   caller: `0x${string}`;
@@ -22,8 +22,9 @@ export default async function () {
         query: `{
           withdraws(
             first: 1000
-            block: { number_gte: ${INIT_BLOCK}}
-            where: { id_gt: "${last}", timestamp_lte: ${LAST_TIMESTAMP}}
+            where: { ${
+              last ? `id_gt: "${last}",` : ''
+            } timestamp_gte: ${FIRST_TIMESTAMP}, timestamp_lte: ${LAST_TIMESTAMP}}
             orderBy: id
             orderDirection: asc
           ) { id, market, caller, receiver, owner, assets }

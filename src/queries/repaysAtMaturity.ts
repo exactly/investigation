@@ -1,17 +1,10 @@
 import { FIRST_TIMESTAMP, LAST_TIMESTAMP, SUBGRAPH } from '../constants';
-
-export type Repay = {
-  id: string;
-  market: `0x${string}`;
-  caller: `0x${string}`;
-  borrower: `0x${string}`;
-  assets: bigint;
-};
+import { Repay } from './repays';
 
 export default async function () {
   let last: string | undefined = '';
   const result = [];
-  console.log('fetching repays...');
+  console.log('fetching repays at maturity...');
   do {
     // eslint-disable-next-line no-await-in-loop
     const response = await fetch(SUBGRAPH, {
@@ -19,7 +12,7 @@ export default async function () {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         query: `{
-          repays(
+          repayAtMaturities(
             first: 1000
             where: { ${
               last ? `id_gt: "${last}",` : ''
@@ -31,10 +24,10 @@ export default async function () {
       }),
     });
     // eslint-disable-next-line no-await-in-loop
-    const { repays } = (await response.json()).data as { repays: Repay[] };
-    last = repays.length ? repays[repays.length - 1]?.id : undefined;
-    result.push(...repays);
+    const { repayAtMaturities } = (await response.json()).data as { repayAtMaturities: Repay[] };
+    last = repayAtMaturities.length ? repayAtMaturities[repayAtMaturities.length - 1]?.id : undefined;
+    result.push(...repayAtMaturities);
   } while (last);
-  console.log(`got ${result.length} repays`);
+  console.log(`got ${result.length} repays at maturity`);
   return result;
 }

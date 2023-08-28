@@ -1,32 +1,32 @@
 export const SUBGRAPH = 'https://api.thegraph.com/subgraphs/name/exactly/optimism';
-export const INIT_BLOCK = 108_369_677;
-export const LAST_TIMESTAMP = 1_692_414_000;
+export const FIRST_TIMESTAMP = 1692348373; // Aug-18-2023 08:46:13 AM +UTC (main hack contract deployment)
+export const LAST_TIMESTAMP = 1692489101; // Aug-19-2023 11:51:41 PM +UTC (protocol unpause)
 
-export const SAFE_RECEIVERS: Record<`0x${string}`, string> = {
+export const SAFE_RECEIVERS_NAMES: Record<`0x${string}`, string> = {
   // Uniswap pools used by Debt Manager
   '0x85149247691df622eaf1a8bd0cafd40bc45154a9': 'USDC/WETH UNISWAP',
   '0x1c3140ab59d6caf9fa7459c6f83d4b52ba881d36': 'USDC/OP UNISWAP',
   '0x766854992bd5363ebeeff0113f5a5795796befab': 'USDC/wstETH UNISWAP',
   '0x04f6c85a1b00f6d9b75f91fd23835974cc07e65c': 'WETH/wstETH UNISWAP',
   '0x68f5c0a2de713a54991e01858fd27a3832401849': 'WETH/OP UNISWAP',
-  //
-  '0xba12222222228d8ba445958a75a0704d566bf2c8': 'BalancerVault by nventuro.eth (CHECK',
-  '0x0dbd485f80136bdeb4b1d69d294d6793b6cf83b2': 'Exa Liquidator',
+  // Contracts that interact with Protocol
   '0x675d410dcf6f343219aae8d1dde0bfab46f52106': 'Debt Manager',
+  '0xba12222222228d8ba445958a75a0704d566bf2c8': 'BalancerVault by nventuro.eth',
+  '0x0dbd485f80136bdeb4b1d69d294d6793b6cf83b2': 'Exa Liquidator',
   '0x29babff3eba7b517a75109ea8fd6d1eab4a10258': 'MarketETHRouter',
-  // TODO: review these addresses
+  // Mean Finance
+  '0xa9cffe466ba8a72707d1104de239c9ab477e2493': 'ThirdPartyDCAHubSwapper by Mean Finance',
+  '0x3fa18d0cbaf4c9d5078e758b3deade077ca525cb': 'ThirdPartyDCAHubSwapper by Mean Finance',
+  '0x5ef74c1686455ca1b51893f5381847aa229e87a5': 'ThirdPartyDCAHubSwapper by Mean Finance',
+  '0xca341351fa4d98a3ee7eb688796b796603128d85': 'Swap Proxy by Mean Finance',
   '0x227f070ed2afd8744ef059959b8a8b8e8edc6c0f': 'UniversalPermit2Adapter',
-  '0xa9cffe466ba8a72707d1104de239c9ab477e2493': 'ThirdPartyDCAHubSwapper',
-  '0x3fa18d0cbaf4c9d5078e758b3deade077ca525cb': 'ThirdPartyDCAHubSwapper',
-  '0x5ef74c1686455ca1b51893f5381847aa229e87a5': 'ThirdPartyDCAHubSwapper',
-  '0xca341351fa4d98a3ee7eb688796b796603128d85': 'Swap Proxy',
-  '0xa2e7002e0ffc42e4228292d67c13a81fdd191870': 'Wallet (safe?)',
-  '0x1a00e1e311009e56e3b0b9ed6f86f5ce128a1c01': 'Wallet (safe?)',
-  '0xdaf7bbe20724d2dd7717e0e09a06b572c3a112de': 'Wallet(safe?)',
 };
 
-export const MALICIOUS_RECEIVERS: Record<`0x${string}`, string> = {
+export const SAFE_RECEIVERS = Object.keys(SAFE_RECEIVERS_NAMES);
+
+export const MALICIOUS_RECEIVERS_NAMES: Record<`0x${string}`, string> = {
   '0x6dd61c69415c8ecab3fefd80d079435ead1a5b4d': 'Custom  by 0xE4 (EPE2)',
+  // UNIV3 by tiffa.eth'
   '0x1ffd370f9d01f75de2cc701956886acec9749e80': 'UNIV3 by tiffa.eth',
   '0x5738de8d0b864d5ef5d65b9e05b421b71f2c2eb4': 'UNIV3 by tiffa.eth',
   '0x282b7d6bef6c78927f394330dca297eca2bd18cd': 'UNIV3 by tiffa.eth',
@@ -368,3 +368,5 @@ export const MALICIOUS_RECEIVERS: Record<`0x${string}`, string> = {
   '0x8465539c35ea1c3e00e93e9c7d73db3e5b1b3592': 'UNIV3 by 0x41 (EPE3)',
   '0xed961c64a1a62bb38080a8e03b0d69d6cbdf90dc': 'UNIV3 by 0x41 (EPE3)',
 };
+
+export const MALICIOUS_RECEIVERS = Object.keys(MALICIOUS_RECEIVERS_NAMES);
