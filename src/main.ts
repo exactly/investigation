@@ -3,13 +3,13 @@ import fs from 'fs';
 import withdraws from './queries/withdraws';
 import repays from './queries/repays';
 import groupBy from './utils';
-import repaysAtMaturity from './queries/repaysAtMaturity';
+import repayAtMaturities from './queries/repayAtMaturities';
 import withdrawAtMaturities from './queries/withdrawAtMaturities';
 import { MALICIOUS_RECEIVERS } from './constants';
 
 async function losses() {
   const allWithdrawals = [...(await withdraws()), ...(await withdrawAtMaturities())];
-  const allRepays = [...(await repays()), ...(await repaysAtMaturity())];
+  const allRepays = [...(await repays()), ...(await repayAtMaturities())];
   const externalWithdrawals = allWithdrawals.filter(({ receiver, owner }) => receiver !== owner);
   const externalRepays = allRepays.filter(({ caller, borrower }) => caller !== borrower);
   const maliciousWithdrawals = externalWithdrawals.filter(({ receiver }) => MALICIOUS_RECEIVERS.includes(receiver));
